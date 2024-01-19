@@ -1,0 +1,72 @@
+class DataNode():
+    def __init__(self, data=""):
+        self.data = data
+        self.next = None
+ 
+class SinglyLinkedList():
+    def __init__(self):
+        self.count = 0
+        self.head = None
+    def traverse(self):
+        if self.count == 0:
+            print("This is an empty list.")
+        else:
+            start = self.head
+            while start.next != None:
+                print(start.data, end=" -> ")
+                start = start.next
+            print(start.data)
+    def insert_last(self, data):
+        pNew = DataNode(data)
+        if self.count == 0:
+            self.head = pNew
+        else:
+            start = self.head
+            while start.next != None:
+                start = start.next
+            start.next = pNew
+        self.count += 1
+    def insert_front(self, data):
+        pNew = DataNode(data)
+        pNew.next = self.head
+        self.head = pNew
+        self.count += 1
+    def insert_before(self, node, data):
+        pNew = DataNode(data)
+        if self.count == 0:
+            print(f"Cannot insert, {node} does not exist.")
+            return
+        if self.head.data == node:
+            pNew.next = self.head
+            self.head = pNew
+            self.count += 1
+            return
+  
+        start = self.head
+        while start.next is not None and start.next.data != node:
+            start = start.next
+  
+        if start.next is None:
+            print(f"Cannot insert, {node} does not exist.")
+        else:
+            pNew.next = start.next
+            start.next = pNew
+            self.count += 1
+ 
+def main():
+    mylist = SinglyLinkedList()
+    for _ in range(int(input())):
+        text = input()
+        condition, data = text.split(": ")
+        if condition == "F":
+            mylist.insert_front(data)
+        elif condition == "L":
+            mylist.insert_last(data)
+        elif condition == "B":
+            mylist.insert_before(*data.split(", "))
+        # elif condition == "D":
+        #     mylist.delete(data)
+        else:
+            print("Invalid Condition!")
+    mylist.traverse()
+main()
